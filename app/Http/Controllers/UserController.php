@@ -14,16 +14,11 @@ class UserController extends Controller
 
     public function store()
     {
-        request()->validate(['name' => 'required|string', 'email' => 'required|email', 'password' => 'required']);
+        request()->validate(['name' => 'required|string', 'email' => 'required|email', 'password' => 'required', 'profile' => 'required|exists:profile,name']);
         $user = User::create(request()->all());
     }
 
     public function update(User $user)
-    {
-
-    }
-
-    public function destroy(User $user)
     {
 
     }

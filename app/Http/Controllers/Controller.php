@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\{GetEscalaOtAction, GetEscalaOtDto};
+use App\Actions\SendWhatsappMessageAction;
+
 abstract class Controller
 {
     protected $principalModelClass;
@@ -60,5 +63,12 @@ abstract class Controller
         }
         $data = $model->create($dataToInsert);
         return response()->json(['success' => true, 'data' => $data], 201);
+    }
+
+    public function action(GetEscalaOtAction $action, GetEscalaOtDto $dto)
+    {
+        // dd('dsa');
+        // dd($dto->fromArray(request()->all()));
+        return $action->handle($dto->fromArray(request()->all()));
     }
 }

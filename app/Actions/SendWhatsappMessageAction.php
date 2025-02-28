@@ -2,15 +2,22 @@
 
 namespace App\Actions;
 
+use App\Dtos\BaseDto;
 use Twilio\Rest\Client;
 
+
+class SendWhatsappMessageDto extends BaseDto
+{
+    protected int $phone;
+    protected string $message;
+}
 class SendWhatsappMessageAction extends BaseAction
 {
     protected array $validationRules = [
         'phone' => 'required|numeric|digits:13',
         'message' => 'required',
     ];
-    public function handle(array $data)
+    public function handle(SendWhatsappMessageDto $data)
     {
         $this->validateData($data);
         $twilioSid = config('whatsapp.TWILIO_SID');

@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
 use App\Http\Controllers\{RegisterController, TransactionController};
+use App\Actions\SendWhatsappMessageAction;
 
 
 
@@ -41,6 +42,24 @@ Route::middleware('auth:sanctum')->group( function () {
 
     Route::resource('users', UserController::class)->only(['index']);
     Route::resource('transactions', TransactionController::class)->except(['create', 'edit']);
+
+    Route::prefix('whatsapp')->withoutMiddleware('auth:sanctum')->group(function(){
+        Route::post('webhook', function(){
+            Log::info('WEBHOOK WP', request()->all());
+            return '<?xml version="1.0" encoding="UTF-8"?>
+            <Response>
+                <Message>
+                    Olá Mundo!
+                </Message>
+            </Response>';
+        });
+        Route::get('', [TransactionController::class, 'action']);
+        // Route::get('', function() {
+        //     dd('HEROC');
+        // });
+        // Route::get('whatsapp', [WhatsAppController::class, 'index']);
+        // Route::post('whatsapp', [WhatsAppController::class, 'store'])->name('whatsapp.post');
+    });
 
 });
 
